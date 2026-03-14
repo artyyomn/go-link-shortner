@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<div id="container">
+			<input type="text" placeholder="Enter Link" id="link"></input>
+			<button onClick=SubmitLink()>Shorten</button>
+			<div id="shortLink"> </div>
+		</div>
+		<script>
+			let Link = document.getElementById("link")
+
+			const sanitizeLink = async (link) =>{
+				// TODO sanitize shitty links given by the user
+				linkString = String(link)
+
+				if (linkString.length === 0){
+					// TODO handle empty link
+				}
+
+				return linkString
+			}
+
+			const SubmitLink = async () =>{
+				try{
+					let linkValue = Link.value
+					let goodLink = await sanitizeLink(linkValue)
+					
+					const res = await fetch("http://localhost:6767/",{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						// TODO send json request
+						body: JSON.stringify({
+							"long": goodLink,
+							"short": "",
+						})
+					})
+
+					const data = await res.json()
+
+					// TODO add a copy button to copy link
+					const returnedLink = document.createElement("p")
+
+					const copyBtn = document.createElement("button")
+					copyBtn.id = "copyBtn"
+					copyBtn.textContent = "copy"
+
+					returnedLink.id = "linkToCopy"
+					returnedLink.textContent = "localhost:6767/" + data
+
+					const exists = document.getElementById("linkToCopy")
+					const existsBtn = document.getElementById("copyBtn")
+
+					if(exists){
+						shortLink.replaceChild(returnedLink, exists)
+						shortLink.replaceChild(copyBtn, existsBtn)
+					}else{
+						shortLink.appendChild(returnedLink)
+						shortLink.appendChild(copyBtn)
+					}
+
+				}catch(err){
+					console.error("fetch error", err)
+				}
+
+				copyBtn.addEventListener("click", async () => {
+					try{
+						await navigator.clipboard.writeText(linkToCopy.textContent)
+						copyBtn.textContent = "COPIED"
+					}catch(err){
+						console.error("enable to copy", err)
+					}
+				})
+
+				linkToCopy.addEventListener("click", async () =>{
+					try{
+						await navigator.clipboard.writeText(linkToCopy.textContent)
+						copyBtn.textContent = "COPIED"
+					}catch(err){
+						console.error("enable to copy", err)
+					}
+				})
+			}
+		</script>
+
+		<style>
+			#container {
+				width: 90%;
+				max-width: 500px;
+				margin: 50px auto;
+				padding: 30px;
+				background-color: #f9f9f9;
+				border-radius: 12px;
+				box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			}
+
+			/* Input styling */
+			#link {
+				width: 100%;
+				padding: 12px 15px;
+				margin-bottom: 15px;
+				font-size: 16px;
+				border: 2px solid #ddd;
+				border-radius: 8px;
+				transition: border-color 0.3s;
+			}
+
+			#link:focus {
+				outline: none;
+				border-color: #4CAF50;
+			}
+
+			/* Button styling */
+			button {
+				margin-top: 5px;
+				padding: 8px 16px;
+				font-size: 14px;
+				border-radius: 6px;
+				background-color: #008CBA;
+				color: white;
+				border: none;
+				cursor: pointer;
+				transition: background-color 0.3s, transform 0.2s;
+			}
+
+			button:hover {
+				background-color: #45a049;
+				transform: scale(1.05);
+			}
+
+			button:active {
+				transform: scale(0.98);
+			}
+
+			/* Shortened link display */
+			#shortLink {
+				margin-top: 20px;
+				width: 100%;
+				text-align: center;
+			}
+
+			#shortLink p {
+				margin: 10px 0;
+				font-size: 18px;
+				word-break: break-all;
+				cursor: pointer;
+				color: #333;
+				transition: color 0.2s;
+			}
+
+			#shortLink p:hover {
+				color: #4CAF50;
+			}
+
+			#copyBtn {
+				margin-top: 5px;
+				padding: 8px 16px;
+				font-size: 14px;
+				border-radius: 6px;
+				background-color: #008CBA;
+				color: white;
+				border: none;
+				cursor: pointer;
+				transition: background-color 0.3s, transform 0.2s;
+			}
+
+			#copyBtn:hover {
+				background-color: #007bb5;
+				transform: scale(1.05);
+			}
+
+			#copyBtn:active {
+				transform: scale(0.98);
+			}
+		</style>
+
+	</body>
+</html>
