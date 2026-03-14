@@ -1,19 +1,20 @@
-FROM golang:1.26.0-alpine as builder
+FROM golang:1.26.0-alpine AS builder
+
+ENV PORT=6767
+ENV DATABASE_URL="./db/database.db"
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
-RUN go mod download
-
-
 COPY . .
 
-RUN go build -o main .
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o main main.go
 
-FROM alpine:latest
+FROM scratch
 
 COPY --from=builder /app/main /main
+COPY --from=builder /app/frontend ./frontend
+COPY --from=builder /app/db ./db
 
 EXPOSE 6767
 
-CMD["/main"]
+CMD ["/main"]

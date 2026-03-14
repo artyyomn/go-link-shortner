@@ -24,6 +24,14 @@
 			}
 
 			const SubmitLink = async () =>{
+				const returnedLink = document.createElement("p")
+
+				const copyBtn = document.createElement("button")
+				copyBtn.id = "copyBtn"
+				copyBtn.textContent = "copy"
+
+				returnedLink.id = "linkToCopy"
+
 				try{
 					let linkValue = Link.value
 					let goodLink = await sanitizeLink(linkValue)
@@ -42,18 +50,10 @@
 
 					const data = await res.json()
 
-					// TODO add a copy button to copy link
-					const returnedLink = document.createElement("p")
-
-					const copyBtn = document.createElement("button")
-					copyBtn.id = "copyBtn"
-					copyBtn.textContent = "copy"
-
-					returnedLink.id = "linkToCopy"
-					returnedLink.textContent = "localhost:6767/" + data
-
 					const exists = document.getElementById("linkToCopy")
 					const existsBtn = document.getElementById("copyBtn")
+
+					returnedLink.textContent = "localhost:6767/" + data
 
 					if(exists){
 						shortLink.replaceChild(returnedLink, exists)

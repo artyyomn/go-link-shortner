@@ -10,15 +10,20 @@ import (
 	"syscall"
 	"time"
 	"url-shortner/handlers"
+	"url-shortner/middleware"
 
 	"github.com/joho/godotenv"
+	
 )
 
 func main() {
 
+	Root := http.HandlerFunc(handlers.HandleRoot)
+	ShortLink := http.HandlerFunc(handlers.HandleShortLink)
+
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", handlers.HandleRoot)
-	mux.HandleFunc("/{short}", handlers.HandleShortLink)
+	mux.Handle("/", middleware.ChainMiddleware(Root, middleware.CORS))
+	mux.Handle("/{short}", middleware.ChainMiddleware(ShortLink, middleware.CORS))
 
 	// TODO implement CORS middleware
 	run(mux)
@@ -28,10 +33,13 @@ func main() {
 func run(mux *http.ServeMux) {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("couldn't get environment variable", err)
+		log.Println("couldn't get environment variable", err)
 	}
 
 	PORT := os.Getenv("PORT")
+	if PORT == ""{
+		PORT = "6767"
+	}
 	log.Println("Hmmmm..... starting server")
 
 	shutdown := make(chan os.Signal, 1)
@@ -61,3 +69,5 @@ func run(mux *http.ServeMux) {
 	}
 	log.Println("Graceful shutdown achieved")
 }
+
+
