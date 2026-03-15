@@ -198,7 +198,7 @@
 
 				const copyBtn = document.createElement("button")
 				copyBtn.id="copyBtn"
-				copyBtn.textContent="copy"
+				copyBtn.textContent="COPY"
 
 				returnedLink.id="linkToCopy"
 
@@ -241,7 +241,7 @@
 				copyBtn.addEventListener("click", async ()=>{
 					try{
 						await navigator.clipboard.writeText(linkToCopy.textContent)
-						copyBtn.textContent="copied ✓"
+						copyBtn.textContent="COPY ✓"
 					}catch(err){
 						console.error("unable to copy",err)
 					}
