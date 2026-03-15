@@ -1,186 +1,264 @@
 <!DOCTYPE html>
 <html>
 	<head>
+
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Link Shortener</title>
+
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Datatype:wght@100..900&display=swap');
+			@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+			*{
+				box-sizing:border-box;
+				margin:0;
+				padding:0;
+				font-family: "Montserrat"
+			}
+
+			body{
+				min-height:100vh;
+				display:flex;
+				justify-content:center;
+				align-items:center;
+				padding:20px;
+
+				/* Monochrome animated gradient */
+				background:linear-gradient(
+					135deg,
+					#000000,
+					#1a1a1a,
+					#2b2b2b,
+					#111111,
+					#3a3a3a,
+					#000000
+				);
+				background-size:400% 400%;
+				animation:gradientMove 20s ease infinite;
+			}
+
+			@keyframes gradientMove{
+				0%{background-position:0% 50%}
+				50%{background-position:100% 50%}
+				100%{background-position:0% 50%}
+			}
+
+			#container{
+				width:100%;
+				max-width:500px;
+				padding:32px 26px;
+				border-radius:22px;
+
+				/* Dark glass */
+				background:rgba(255,255,255,0.06);
+				backdrop-filter:blur(22px);
+				-webkit-backdrop-filter:blur(22px);
+				border:1px solid rgba(255,255,255,0.15);
+				box-shadow:
+					0 10px 40px rgba(0,0,0,0.7),
+				inset 0 1px rgba(255,255,255,0.15);
+				display:flex;
+				flex-direction:column;
+				gap:14px;
+			}
+
+			h2{
+				color:#f5f5f5;
+				font-size:1.3rem;
+				font-weight:500;
+				text-align:center;
+				letter-spacing:1px;
+			}
+
+			/* Input */
+
+			#link{
+				width:100%;
+				padding:14px;
+				border-radius:14px;
+				border:1px solid rgba(255,255,255,0.18);
+				background:rgba(255,255,255,0.08);
+				color:#ffffff;
+				font-size:0.95rem;
+				backdrop-filter:blur(8px);
+				transition:all .25s;
+			}
+
+			#link::placeholder{
+				color:#bbbbbb;
+				font-family: "Datatype"
+			}
+
+			#link:focus{
+				outline:none;
+				border:1px solid rgba(255,255,255,0.4);
+				background:rgba(255,255,255,0.12);
+			}
+
+			/* Buttons */
+
+			button{
+				padding:12px 16px;
+				border-radius:12px;
+				border:1px solid rgba(255,255,255,0.2);
+				background:rgba(255,255,255,0.12);
+				color:#ffffff;
+				font-size:1rem;
+				cursor:pointer;
+				backdrop-filter:blur(8px);
+				transition:all .2s;
+			}
+
+			button:hover{
+				background:rgba(255,255,255,0.2);
+				transform:translateY(-1px);
+			}
+
+			button:active{
+				transform:scale(.96);
+			}
+
+			/* Short link */
+			#shortLink{
+				margin-top:6px;
+				display:flex;
+				flex-direction:column;
+				align-items:center;
+				gap:10px;
+				text-align:center;
+			}
+
+			#linkToCopy{
+				color:#eaeaea;
+				font-size:0.9rem;
+				word-break:break-all;
+				cursor:pointer;
+				line-height:1.4;
+				opacity:.9;
+			}
+
+			#linkToCopy:hover{
+				opacity:1;
+				text-decoration:underline;
+			}
+
+			/* Mobile */
+			@media (max-width:480px){
+				#container{
+					padding:26px 20px;
+				}
+				h2{
+					font-size:1.1rem;
+				}
+				#link{
+					font-size:0.9rem;
+					padding:12px;
+				}
+				button{
+					font-size:0.85rem;
+					padding:11px;
+				}
+			}
+		</style>
 	</head>
+
 	<body>
+
 		<div id="container">
-			<input type="text" placeholder="Enter Link" id="link"></input>
-			<button onClick=SubmitLink()>Shorten</button>
-			<div id="shortLink"> </div>
+
+			<h2>Link-Circumciser</h2>
+
+			<input type="text" placeholder="paste-url-here" id="link">
+
+			<button onClick="SubmitLink()">CUT</button>
+
+			<div id="shortLink"></div>
+
 		</div>
+
 		<script>
+
 			let Link = document.getElementById("link")
 
 			const sanitizeLink = async (link) =>{
-				// TODO sanitize shitty links given by the user
 				linkString = String(link)
 
-				if (linkString.length === 0){
-					// TODO handle empty link
+				if(linkString.length === 0){
+					return ""
 				}
 
 				return linkString
 			}
 
 			const SubmitLink = async () =>{
+
 				const returnedLink = document.createElement("h5")
 
 				const copyBtn = document.createElement("button")
-				copyBtn.id = "copyBtn"
-				copyBtn.textContent = "copy"
+				copyBtn.id="copyBtn"
+				copyBtn.textContent="copy"
 
-				returnedLink.id = "linkToCopy"
+				returnedLink.id="linkToCopy"
 
 				try{
+
 					let linkValue = Link.value
 					let goodLink = await sanitizeLink(linkValue)
-					
+
 					const res = await fetch("https://go-link-shortner.onrender.com/",{
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json"
+						method:"POST",
+						headers:{
+							"Content-Type":"application/json"
 						},
-						// TODO send json request
-						body: JSON.stringify({
-							"long": goodLink,
-							"short": "",
+						body:JSON.stringify({
+							"long":goodLink,
+							"short":""
 						})
 					})
 
 					const data = await res.json()
 
-					const exists = document.getElementById("linkToCopy")
-					const existsBtn = document.getElementById("copyBtn")
+					const exists=document.getElementById("linkToCopy")
+					const existsBtn=document.getElementById("copyBtn")
 
-					returnedLink.textContent = "go-link-shortner.onrender.com/" + data
+					returnedLink.textContent=
+						"go-link-shortner.onrender.com/"+data
 
 					if(exists){
-						shortLink.replaceChild(returnedLink, exists)
-						shortLink.replaceChild(copyBtn, existsBtn)
+						shortLink.replaceChild(returnedLink,exists)
+						shortLink.replaceChild(copyBtn,existsBtn)
 					}else{
 						shortLink.appendChild(returnedLink)
 						shortLink.appendChild(copyBtn)
 					}
 
 				}catch(err){
-					console.error("fetch error", err)
+					console.error("fetch error",err)
 				}
 
-				copyBtn.addEventListener("click", async () => {
+				copyBtn.addEventListener("click", async ()=>{
 					try{
 						await navigator.clipboard.writeText(linkToCopy.textContent)
-						copyBtn.textContent = "COPIED"
+						copyBtn.textContent="copied ✓"
 					}catch(err){
-						console.error("enable to copy", err)
+						console.error("unable to copy",err)
 					}
 				})
 
-				linkToCopy.addEventListener("click", async () =>{
+				linkToCopy.addEventListener("click", async ()=>{
 					try{
 						await navigator.clipboard.writeText(linkToCopy.textContent)
-						copyBtn.textContent = "COPIED"
+						copyBtn.textContent="copied ✓"
 					}catch(err){
-						console.error("enable to copy", err)
+						console.error("unable to copy",err)
 					}
 				})
+
 			}
+
 		</script>
-
-		<style>
-			#container {
-				width: 90%;
-				max-width: 500px;
-				margin: 50px auto;
-				padding: 30px;
-				background-color: #f9f9f9;
-				border-radius: 12px;
-				box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-			}
-
-			/* Input styling */
-			#link {
-				width: 100%;
-				padding: 12px 15px;
-				margin-bottom: 15px;
-				font-size: 16px;
-				border: 2px solid #ddd;
-				border-radius: 8px;
-				transition: border-color 0.3s;
-			}
-
-			#link:focus {
-				outline: none;
-				border-color: #4CAF50;
-			}
-
-			/* Button styling */
-			button {
-				margin-top: 5px;
-				padding: 8px 16px;
-				font-size: 14px;
-				border-radius: 6px;
-				background-color: #008CBA;
-				color: white;
-				border: none;
-				cursor: pointer;
-				transition: background-color 0.3s, transform 0.2s;
-			}
-
-			button:hover {
-				background-color: #45a049;
-				transform: scale(1.05);
-			}
-
-			button:active {
-				transform: scale(0.98);
-			}
-
-			/* Shortened link display */
-			#shortLink {
-				margin-top: 20px;
-				width: 100%;
-				text-align: center;
-			}
-
-			#shortLink p {
-				margin: 10px 0;
-				font-size: 18px;
-				word-break: break-all;
-				cursor: pointer;
-				color: #333;
-				transition: color 0.2s;
-			}
-
-			#shortLink p:hover {
-				color: #4CAF50;
-			}
-
-			#copyBtn {
-				margin-top: 5px;
-				padding: 8px 16px;
-				font-size: 14px;
-				border-radius: 6px;
-				background-color: #008CBA;
-				color: white;
-				border: none;
-				cursor: pointer;
-				transition: background-color 0.3s, transform 0.2s;
-			}
-
-			#copyBtn:hover {
-				background-color: #007bb5;
-				transform: scale(1.05);
-			}
-
-			#copyBtn:active {
-				transform: scale(0.98);
-			}
-		</style>
 
 	</body>
 </html>
