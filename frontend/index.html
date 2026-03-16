@@ -8,15 +8,15 @@
 		<title>Link Shortener</title>
 
 		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Datatype:wght@100..900&display=swap');
-			@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Datatype:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-			*{
-				box-sizing:border-box;
-				margin:0;
-				padding:0;
-				font-family: "Montserrat"
-			}
+*{
+	box-sizing:border-box;
+	margin:0;
+	padding:0;
+	font-family: "Montserrat"
+}
 
 			body{
 				min-height:100vh;
@@ -34,7 +34,7 @@
 					#111111,
 					#3a3a3a,
 					#000000
-				);
+						);
 				background-size:400% 400%;
 				animation:gradientMove 20s ease infinite;
 			}
@@ -59,9 +59,9 @@
 				box-shadow:
 					0 10px 40px rgba(0,0,0,0.7),
 				inset 0 1px rgba(255,255,255,0.15);
-				display:flex;
-				flex-direction:column;
-				gap:14px;
+			display:flex;
+			flex-direction:column;
+			gap:14px;
 			}
 
 			h2{
@@ -161,6 +161,50 @@
 					padding:11px;
 				}
 			}
+
+			#shortLink{
+				margin-top:10px;
+				display:flex;
+				justify-content:center;
+			}
+
+			.resultRow{
+				display:flex;
+				width:100%;
+				gap:8px;
+				align-items:center;
+			}
+
+			/* textbox */
+
+			#linkToCopy{
+				flex:1;
+				padding:12px;
+				border-radius:12px;
+				border:1px solid rgba(255,255,255,0.18);
+				background:rgba(255,255,255,0.08);
+				color:#ffffff;
+				font-size:0.9rem;
+				backdrop-filter:blur(8px);
+			}
+
+			/* copy icon button */
+
+			#copyBtn{
+				display:flex;
+				justify-content:center;
+				align-items:center;
+				width:42px;
+				height:42px;
+				font-size:18px;
+				border-radius:10px;
+				padding:0;
+			}
+			#copyBtn svg{
+				width:18px;
+				height:18px;
+				pointer-events:none;
+			}
 		</style>
 	</head>
 
@@ -194,13 +238,32 @@
 
 			const SubmitLink = async () =>{
 
-				const returnedLink = document.createElement("h5")
+				const wrapper = document.createElement("div")
+				wrapper.className="resultRow"
+
+				const returnedLink = document.createElement("input")
+				returnedLink.id="linkToCopy"
+				returnedLink.readOnly=true
 
 				const copyBtn = document.createElement("button")
 				copyBtn.id="copyBtn"
-				copyBtn.textContent="COPY"
+				copyBtn.innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" 
+width="18" height="18" 
+viewBox="0 0 24 24" 
+fill="none" 
+stroke="currentColor" 
+stroke-width="2" 
+stroke-linecap="round" 
+stroke-linejoin="round">
 
-				returnedLink.id="linkToCopy"
+<rect x="9" y="9" width="13" height="13" rx="2"></rect>
+<path d="M5 15H4a2 2 0 0 1-2-2V4
+a2 2 0 0 1 2-2h9
+a2 2 0 0 1 2 2v1"></path>
+
+</svg>
+`
 
 				try{
 
@@ -220,19 +283,14 @@
 
 					const data = await res.json()
 
-					const exists=document.getElementById("linkToCopy")
-					const existsBtn=document.getElementById("copyBtn")
-
-					returnedLink.textContent=
+					returnedLink.value =
 						"go-link-shortner.onrender.com/"+data
 
-					if(exists){
-						shortLink.replaceChild(returnedLink,exists)
-						shortLink.replaceChild(copyBtn,existsBtn)
-					}else{
-						shortLink.appendChild(returnedLink)
-						shortLink.appendChild(copyBtn)
-					}
+					wrapper.appendChild(returnedLink)
+					wrapper.appendChild(copyBtn)
+
+					shortLink.innerHTML=""
+					shortLink.appendChild(wrapper)
 
 				}catch(err){
 					console.error("fetch error",err)
@@ -240,23 +298,34 @@
 
 				copyBtn.addEventListener("click", async ()=>{
 					try{
-						await navigator.clipboard.writeText(linkToCopy.textContent)
-						copyBtn.textContent="COPY ✓"
+						await navigator.clipboard.writeText(returnedLink.value)
+						copyBtn.innerHTML=`
+<svg xmlns="http://www.w3.org/2000/svg" 
+width="18" height="18"
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="3"
+stroke-linecap="round"
+stroke-linejoin="round">
+<polyline points="20 6 9 17 4 12"></polyline>
+</svg>
+`
 					}catch(err){
 						console.error("unable to copy",err)
 					}
-				})
+				})			})
 
-				linkToCopy.addEventListener("click", async ()=>{
-					try{
-						await navigator.clipboard.writeText(linkToCopy.textContent)
-						copyBtn.textContent="copied ✓"
-					}catch(err){
-						console.error("unable to copy",err)
-					}
-				})
+			linkToCopy.addEventListener("click", async ()=>{
+				try{
+					await navigator.clipboard.writeText(linkToCopy.textContent)
+					copyBtn.textContent="copied ✓"
+				}catch(err){
+					console.error("unable to copy",err)
+				}
+			})
 
-			}
+}
 
 		</script>
 
