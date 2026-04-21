@@ -476,12 +476,12 @@ button:disabled{
 
 					copyBtn.className="copyBtn"
 
-					copyBtn.textContent="COPY"
 
 					wrapper.appendChild(returnedLink)
 					wrapper.appendChild(copyBtn)
 
-					shortLinkContainer.innerHTML=""
+					shortLinkContainer.innerHTML=
+						iconCopy()
 					shortLinkContainer.appendChild(wrapper)
 
 					copyBtn.onclick=async()=>{
@@ -489,9 +489,10 @@ button:disabled{
 						await navigator.clipboard.writeText(
 							returnedLink.value
 						)
+						copyBtn.innerHTML =
+							iconCheck()
 
-						msg.textContent="copied"
-
+						msg.textContent = "copied"
 					}
 
 				}
@@ -536,6 +537,32 @@ button:disabled{
 			)
 
 			submitBtn.disabled=true
+
+			function iconCopy(){
+
+				return `
+<svg xmlns="http://www.w3.org/2000/svg"
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="2">
+<rect x="9" y="9" width="13" height="13" rx="2"/>
+<path d="M5 15H4a2 2 0 0 1-2-2V4
+a2 2 0 0 1 2-2h9
+a2 2 0 0 1 2 2v1"/>
+</svg>
+`
+			function iconCheck(){
+
+				return `
+<svg xmlns="http://www.w3.org/2000/svg"
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="3">
+<polyline points="20 6 9 17 4 12"/>
+</svg>
+`
 
 			function applyTheme(theme){
 
