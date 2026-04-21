@@ -12,7 +12,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Datatype:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
 
-/* ================= THEME ================= */
+/* theme */
 
 :root{
 	--bg:#1a1a1a;
@@ -25,7 +25,6 @@
 
 	--text:#f5f5f5;
 	--muted:#999;
-	--sub:#aaa;
 }
 
 .light{
@@ -38,11 +37,10 @@
 	--btn-hover:rgba(0,0,0,0.15);
 
 	--text:#111;
-	--muted:#555;
-	--sub:#666;
+	--muted:#666;
 }
 
-/* ================= BASE ================= */
+/* base */
 
 *{
 	box-sizing:border-box;
@@ -58,22 +56,23 @@ body{
 	align-items:center;
 	padding:20px;
 	background:var(--bg);
-	transition:.25s;
 }
 
-/* ================= CONTAINER ================= */
+/* card */
 
 #container{
 	position:relative;
+
 	width:100%;
 	max-width:500px;
+
 	padding:32px 26px;
+
 	border-radius:22px;
 
 	background:var(--card);
 	border:1px solid var(--border);
 
-	/* subtle depth */
 	box-shadow:
 		0 12px 40px rgba(0,0,0,.35),
 	inset 0 1px rgba(255,255,255,.05);
@@ -83,7 +82,7 @@ flex-direction:column;
 gap:16px;
 }
 
-/* ================= TOGGLE ================= */
+/* theme button */
 
 .themeBtn{
 	position:absolute;
@@ -99,134 +98,181 @@ gap:16px;
 
 	border-radius:10px;
 	padding:0;
-	letter-spacing:0;
-	line-height:1;
 }
 
-/* ================= TEXT ================= */
-
-h2{
-	color:var(--text);
-	text-align:center;
-}
-
-.sub{
-	font-size:.75rem;
-	color:var(--sub);
-	text-align:center;
-}
-
-/* ================= INPUT ================= */
+/* input */
 
 .inputWrap{
 	position:relative;
 }
 
 #link{
+
 	width:100%;
-	padding:14px 42px 14px 14px;
+
+	padding:14px 40px 14px 14px;
+
 	border-radius:14px;
+
 	border:1px solid var(--border);
+
 	background:var(--input);
+
 	color:var(--text);
-}
 
-#link:focus{
-	outline:none;
-	background:var(--input-focus);
 }
-
-/* clear button */
 
 .clearBtn{
+
 	position:absolute;
-	right:10px;
+
+	right:8px;
 	top:50%;
+
 	transform:translateY(-50%);
-	width:24px;
-	height:24px;
-	border-radius:6px;
-	font-size:14px;
+
+	width:26px;
+	height:26px;
+
 	display:flex;
 	align-items:center;
 	justify-content:center;
+
+	border-radius:8px;
+
 	padding:0;
+
+	font-size:14px;
+
 	opacity:.6;
+
 }
 
 .clearBtn:hover{
 	opacity:1;
 }
 
-/* ================= BUTTON ================= */
+/* button */
 
 button{
-	padding:13px;
+
+	padding:12px;
+
 	border-radius:12px;
+
 	border:1px solid var(--border);
+
 	background:var(--btn);
+
 	color:var(--text);
+
 	cursor:pointer;
-	transition:.18s;
+
 	letter-spacing:2px;
+
 }
 
 button:hover:not(:disabled){
 	background:var(--btn-hover);
-	transform:translateY(-1px);
 }
 
-button:disabled{
-	opacity:.35;
-}
-
-/* ================= RESULT ================= */
+/* result */
 
 #shortLink{
-	min-height:46px;
+
 	display:flex;
 	flex-direction:column;
+
 	gap:10px;
+
 }
 
+/* result row */
+
 .resultRow{
+
 	display:flex;
 	gap:8px;
-	animation:fade .25s ease;
+
+	animation:fade .2s ease;
+
 }
 
 .linkToCopy{
+
 	flex:1;
+
 	padding:12px;
+
 	border-radius:12px;
+
 	border:1px solid var(--border);
+
 	background:var(--input);
+
 	color:var(--text);
+
 }
 
-/* ================= QR ================= */
+/* icon buttons */
+
+.iconBtn{
+
+	width:44px;
+	height:44px;
+
+	display:flex;
+	align-items:center;
+	justify-content:center;
+
+	padding:0;
+
+	border-radius:10px;
+
+}
+
+/* qr */
+
+.qrWrap{
+
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	gap:8px;
+
+	animation:fade .25s ease;
+
+}
 
 .qr{
-	display:flex;
-	justify-content:center;
-	padding:10px;
+
+	width:90px;
+	height:90px;
+
+	border-radius:8px;
+
 }
 
-/* ================= SPINNER ================= */
+/* spinner */
 
 .spinner{
+
 	width:16px;
 	height:16px;
+
 	border:2px solid transparent;
 	border-top:2px solid currentColor;
+
 	border-radius:50%;
+
 	animation:spin .6s linear infinite;
+
 }
 
-/* ================= ANIMATIONS ================= */
+/* animations */
 
 @keyframes spin{
-	to{ transform:rotate(360deg) }
+	to{transform:rotate(360deg)}
 }
 
 @keyframes fade{
@@ -234,12 +280,12 @@ button:disabled{
 	to{opacity:1; transform:translateY(0)}
 }
 
-/* ================= MSG ================= */
-
 .msg{
-	text-align:center;
+
 	font-size:.75rem;
 	color:var(--muted);
+	text-align:center;
+
 }
 
 		</style>
@@ -253,11 +299,10 @@ button:disabled{
 			<button id="themeToggle" class="themeBtn">☀</button>
 
 			<h2>Link-Shortner</h2>
-			<div class="sub">fast minimal url cutter</div>
 
 			<div class="inputWrap">
 
-				<input id="link" placeholder="https://example.com"/>
+				<input id="link" placeholder="https://example.com">
 
 				<button id="clearBtn" class="clearBtn">×</button>
 
@@ -275,30 +320,53 @@ button:disabled{
 
 			const linkInput = document.getElementById("link")
 			const submitBtn = document.getElementById("submitBtn")
+			const clearBtn = document.getElementById("clearBtn")
 			const shortLinkContainer = document.getElementById("shortLink")
 			const msg = document.getElementById("msg")
-			const clearBtn = document.getElementById("clearBtn")
 			const toggleBtn = document.getElementById("themeToggle")
 
-			/* normalize */
+			let latestShort = ""
+
+			/* helpers */
 
 			function normalize(url){
+
 				if(!/^https?:\/\//i.test(url)){
 					return "https://" + url.trim()
 				}
+
 			return url.trim()
+
 }
 
-			/* loading */
+			function spinner(){
 
-			function setLoading(state){
-				if(state){
-					submitBtn.innerHTML = '<div class="spinner"></div>'
-					submitBtn.disabled = true
-				}else{
-					submitBtn.textContent = "CUT"
-					submitBtn.disabled = false
-				}
+				return '<div class="spinner"></div>'
+
+			}
+
+			function iconCopy(){
+
+				return `
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<rect x="9" y="9" width="13" height="13" rx="2"/>
+<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+</svg>
+`
+
+			}
+
+			function iconQR(){
+
+				return `
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<rect x="3" y="3" width="5" height="5"/>
+<rect x="16" y="3" width="5" height="5"/>
+<rect x="3" y="16" width="5" height="5"/>
+<path d="M16 16h2v2h-2z"/>
+</svg>
+`
+
 			}
 
 			/* submit */
@@ -308,90 +376,160 @@ button:disabled{
 				let url = normalize(linkInput.value)
 
 				if(!url){
-					msg.textContent = "enter a url"
+					msg.textContent="enter url"
 					return
 				}
 
 				try{
 
-					setLoading(true)
+					submitBtn.innerHTML = spinner()
+					submitBtn.disabled = true
 
 					const res = await fetch("https://go-link-shortner.onrender.com/",{
+
 						method:"POST",
 						headers:{ "Content-Type":"application/json" },
-						body:JSON.stringify({ long:url, short:"" })
+
+						body:JSON.stringify({
+
+							long:url,
+							short:""
+
+						})
+
 					})
 
 					const data = await res.json()
 
-					const short = "https://go-link-shortner.onrender.com/" + data
+					latestShort =
+"https://go-link-shortner.onrender.com/" + data
 
-					const wrapper = document.createElement("div")
-					wrapper.className = "resultRow"
+					const wrapper =
+						document.createElement("div")
 
-					const input = document.createElement("input")
-					input.className = "linkToCopy"
-					input.value = short
-					input.readOnly = true
+					wrapper.className="resultRow"
 
-					/* copy on click */
+					const resultInput =
+						document.createElement("input")
 
-					input.onclick = async ()=>{
-						await navigator.clipboard.writeText(short)
-						msg.textContent = "copied"
+					resultInput.className="linkToCopy"
+
+					resultInput.value = latestShort
+
+					resultInput.readOnly = true
+
+					const copyBtn =
+						document.createElement("button")
+
+					copyBtn.className="iconBtn"
+
+					copyBtn.innerHTML = iconCopy()
+
+					copyBtn.onclick = async ()=>{
+
+						await navigator.clipboard.writeText(latestShort)
+
+						msg.textContent="copied"
+
 					}
 
-					wrapper.appendChild(input)
+					const qrBtn =
+						document.createElement("button")
 
-					shortLinkContainer.innerHTML = ""
+					qrBtn.className="iconBtn"
+
+					qrBtn.innerHTML = iconQR()
+
+					qrBtn.onclick = ()=>{
+
+						renderQR()
+
+					}
+
+					wrapper.appendChild(resultInput)
+					wrapper.appendChild(copyBtn)
+					wrapper.appendChild(qrBtn)
+
+					shortLinkContainer.innerHTML=""
 					shortLinkContainer.appendChild(wrapper)
-
-					/* QR */
-
-					const qr = document.createElement("img")
-					qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=" + encodeURIComponent(short)
-					qr.className = "qr"
-
-					shortLinkContainer.appendChild(qr)
 
 				}
 				catch{
-					msg.textContent = "error"
+
+					msg.textContent="error"
+
 				}
 				finally{
-					setLoading(false)
+
+					submitBtn.textContent="CUT"
+					submitBtn.disabled=false
+
 				}
 
 			}
 
-			/* events */
+			/* qr */
 
-			submitBtn.onclick = submitLink
+			function renderQR(){
 
-			linkInput.addEventListener("keydown", e=>{
-				if(e.key==="Enter") submitLink()
+				const wrap =
+					document.createElement("div")
+
+				wrap.className="qrWrap"
+
+				const img =
+					document.createElement("img")
+
+				img.className="qr"
+
+				img.src =
+"https://api.qrserver.com/v1/create-qr-code/?size=90x90&data="
+					+ encodeURIComponent(latestShort)
+
+				wrap.appendChild(img)
+
+				shortLinkContainer.appendChild(wrap)
+
+			}
+
+			/* input events */
+
+			linkInput.addEventListener("input",()=>{
+
+				submitBtn.disabled =
+					linkInput.value.trim()===""
+
 			})
 
-			/* paste detect */
+			linkInput.addEventListener("paste",()=>{
 
-			linkInput.addEventListener("paste", ()=>{
 				setTimeout(()=>{
-					submitBtn.disabled = linkInput.value.trim().length === 0
+
+					submitBtn.disabled =
+						linkInput.value.trim()===""
+
 				},0)
+
 			})
 
-			linkInput.addEventListener("input", ()=>{
-				submitBtn.disabled = linkInput.value.trim().length === 0
-			})
+			linkInput.addEventListener("keydown",e=>{
 
-			/* clear */
+				if(e.key==="Enter") submitLink()
+
+			})
 
 			clearBtn.onclick = ()=>{
-				linkInput.value = ""
-				shortLinkContainer.innerHTML = ""
-				msg.textContent = ""
-				submitBtn.disabled = true
+
+				linkInput.value=""
+
+				shortLinkContainer.innerHTML=""
+
+				msg.textContent=""
+
+				submitBtn.disabled=true
+
 				linkInput.focus()
+
 			}
 
 			/* theme */
@@ -399,31 +537,54 @@ button:disabled{
 			function applyTheme(theme){
 
 				if(theme==="light"){
+
 					document.documentElement.classList.add("light")
-					toggleBtn.textContent = "🌙"
-				}else{
+
+					toggleBtn.textContent="🌙"
+
+				}
+				else{
+
 					document.documentElement.classList.remove("light")
-					toggleBtn.textContent = "☀"
+
+					toggleBtn.textContent="☀"
+
 				}
 
 				localStorage.setItem("theme",theme)
+
 			}
 
-			toggleBtn.onclick = ()=>{
-				const isLight = document.documentElement.classList.contains("light")
-				applyTheme(isLight ? "dark" : "light")
+			toggleBtn.onclick=()=>{
+
+				const light =
+					document.documentElement.classList.contains("light")
+
+				applyTheme(light?"dark":"light")
+
 			}
 
-			const saved = localStorage.getItem("theme")
+			const saved =
+				localStorage.getItem("theme")
 
 			if(saved){
+
 				applyTheme(saved)
-			}else{
-				const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches
-				applyTheme(prefersLight ? "light" : "dark")
+
+			}
+			else{
+
+				applyTheme(
+					window.matchMedia("(prefers-color-scheme: light)").matches
+					? "light"
+					: "dark"
+				)
+
 			}
 
-			submitBtn.disabled = true
+			submitBtn.disabled=true
+
+			submitBtn.onclick = submitLink
 
 		</script>
 
