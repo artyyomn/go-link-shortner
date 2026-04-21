@@ -1,694 +1,597 @@
 <!DOCTYPE html>
 <html>
-<head>
+	<head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Link Shortener</title>
+		<title>Link Shortener</title>
 
-<style>
+		<style>
 
 @import url('https://fonts.googleapis.com/css2?family=Datatype:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
 
-/* theme vars */
-
 :root{
 
---bg:#1a1a1a;
---card:rgba(255,255,255,0.05);
---border:rgba(255,255,255,0.2);
---input:rgba(255,255,255,0.08);
---input-focus:rgba(255,255,255,0.12);
---btn:rgba(255,255,255,0.12);
---btn-hover:rgba(255,255,255,0.2);
+	--bg:#1a1a1a;
+	--card:rgba(255,255,255,0.05);
+	--border:rgba(255,255,255,0.2);
+	--input:rgba(255,255,255,0.08);
+	--input-focus:rgba(255,255,255,0.12);
+	--btn:rgba(255,255,255,0.12);
+	--btn-hover:rgba(255,255,255,0.2);
 
---text:#f5f5f5;
---muted:#999;
---sub:#aaa;
+	--text:#f5f5f5;
+	--muted:#999;
+	--sub:#aaa;
 
 }
 
 .light{
 
---bg:#f5f5f5;
---card:rgba(0,0,0,0.04);
---border:rgba(0,0,0,0.15);
---input:rgba(0,0,0,0.05);
---input-focus:rgba(0,0,0,0.08);
---btn:rgba(0,0,0,0.08);
---btn-hover:rgba(0,0,0,0.15);
+	--bg:#f5f5f5;
+	--card:rgba(0,0,0,0.04);
+	--border:rgba(0,0,0,0.15);
+	--input:rgba(0,0,0,0.05);
+	--input-focus:rgba(0,0,0,0.08);
+	--btn:rgba(0,0,0,0.08);
+	--btn-hover:rgba(0,0,0,0.15);
 
---text:#111;
---muted:#555;
---sub:#666;
+	--text:#111;
+	--muted:#555;
+	--sub:#666;
 
 }
-
-/* base */
 
 *{
-box-sizing:border-box;
-margin:0;
-padding:0;
-font-family:"Datatype","Montserrat",sans-serif;
-}
-
-html,body{
-height:100%;
+	box-sizing:border-box;
+	margin:0;
+	padding:0;
+	font-family:"Datatype","Montserrat",sans-serif;
 }
 
 body{
 
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-padding:20px;
+	min-height:100vh;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	padding:20px;
 
-background:var(--bg);
-transition:.25s;
+	background:var(--bg);
+	transition:.25s;
 
 }
-
-/* container */
 
 #container{
 
-position:relative;
+	position:relative;
+	width:100%;
+	max-width:500px;
 
-width:100%;
-max-width:500px;
+	padding:32px 26px;
+	border-radius:22px;
 
-padding:32px 26px;
+	background:var(--card);
+	border:1px solid var(--border);
 
-border-radius:22px;
-
-background:var(--card);
-border:1px solid var(--border);
-
-display:flex;
-flex-direction:column;
-gap:16px;
+	display:flex;
+	flex-direction:column;
+	gap:16px;
 
 }
-
-/* theme toggle */
 
 .themeBtn{
 
-position:absolute;
-top:14px;
-right:14px;
+	position:absolute;
+	top:14px;
+	right:14px;
 
-width:38px;
-height:38px;
+	width:38px;
+	height:38px;
 
-border-radius:10px;
+	border-radius:10px;
 
-display:flex;
-align-items:center;
-justify-content:center;
+	display:flex;
+	align-items:center;
+	justify-content:center;
 
-padding:0;
-letter-spacing:0;
-
-font-size:16px;
-line-height:1;
+	font-size:16px;
 
 }
-
-/* heading */
 
 h2{
 
-color:var(--text);
-font-size:1.35rem;
-font-weight:500;
-
-text-align:center;
-letter-spacing:1px;
+	color:var(--text);
+	font-size:1.35rem;
+	font-weight:500;
+	text-align:center;
+	letter-spacing:1px;
 
 }
-
-/* helper */
 
 .sub{
 
-font-size:.75rem;
-color:var(--sub);
-
-text-align:center;
-letter-spacing:1px;
+	font-size:.75rem;
+	color:var(--sub);
+	text-align:center;
+	letter-spacing:1px;
 
 }
 
-/* input */
-
 .inputWrap{
 
-display:flex;
-flex-direction:column;
-gap:6px;
+	display:flex;
+	flex-direction:column;
+	gap:6px;
 
 }
 
 label{
 
-font-size:.7rem;
-letter-spacing:2px;
+	font-size:.7rem;
+	letter-spacing:2px;
+	color:var(--muted);
 
-color:var(--muted);
+}
+
+.inputBox{
+
+	position:relative;
+	width:100%;
 
 }
 
 #link{
 
-width:100%;
+	width:100%;
+	padding:14px;
+	padding-right:40px;
 
-padding:14px;
+	border-radius:14px;
+	border:1px solid var(--border);
 
-border-radius:14px;
+	background:var(--input);
+	color:var(--text);
 
-border:1px solid var(--border);
-background:var(--input);
-
-color:var(--text);
-
-font-size:.95rem;
-
-transition:.2s;
-
-}
-
-#link::placeholder{
-
-color:var(--muted);
+	font-size:.95rem;
+	transition:.2s;
 
 }
 
 #link:focus{
 
-outline:none;
-
-border:1px solid var(--border);
-background:var(--input-focus);
+	outline:none;
+	background:var(--input-focus);
 
 }
 
-/* button */
+.clearBtn{
+
+	position:absolute;
+	right:8px;
+	top:50%;
+	transform:translateY(-50%);
+
+	width:28px;
+	height:28px;
+
+	border-radius:8px;
+	border:none;
+
+	background:transparent;
+
+	display:flex;
+	align-items:center;
+	justify-content:center;
+
+	font-size:14px;
+
+	color:var(--muted);
+
+	cursor:pointer;
+
+	opacity:0;
+	pointer-events:none;
+
+	transition:.15s;
+
+}
+
+.clearBtn.show{
+
+	opacity:.7;
+	pointer-events:auto;
+
+}
+
+.clearBtn:hover{
+
+	opacity:1;
+	color:var(--text);
+
+}
 
 button{
 
-padding:13px;
+	padding:13px;
 
-border-radius:12px;
+	border-radius:12px;
+	border:1px solid var(--border);
 
-border:1px solid var(--border);
-background:var(--btn);
+	background:var(--btn);
+	color:var(--text);
 
-color:var(--text);
+	font-size:.95rem;
 
-font-size:.95rem;
+	cursor:pointer;
 
-cursor:pointer;
-
-transition:.18s;
-
-letter-spacing:2px;
+	letter-spacing:2px;
 
 }
 
 button:hover:not(:disabled){
 
-background:var(--btn-hover);
-transform:translateY(-1px);
-
-}
-
-button:active:not(:disabled){
-
-transform:scale(.96);
+	background:var(--btn-hover);
 
 }
 
 button:disabled{
 
-opacity:.35;
-cursor:not-allowed;
+	opacity:.35;
+	cursor:not-allowed;
 
 }
 
-/* result */
-
 #shortLink{
 
-min-height:46px;
-
-display:flex;
-align-items:center;
+	min-height:46px;
+	display:flex;
+	align-items:center;
 
 }
 
 .resultRow{
 
-display:flex;
-gap:8px;
-
-width:100%;
+	display:flex;
+	gap:8px;
+	width:100%;
 
 }
 
 .linkToCopy{
 
-flex:1;
+	flex:1;
+	padding:12px;
 
-padding:12px;
+	border-radius:12px;
+	border:1px solid var(--border);
 
-border-radius:12px;
-
-border:1px solid var(--border);
-background:var(--input);
-
-color:var(--text);
-
-font-size:.9rem;
+	background:var(--input);
+	color:var(--text);
 
 }
-
-/* copy button */
 
 .copyBtn{
 
-width:44px;
-height:44px;
+	width:44px;
+	height:44px;
 
-border-radius:10px;
+	border-radius:10px;
 
-display:flex;
-align-items:center;
-justify-content:center;
-
-padding:0;
+	display:flex;
+	align-items:center;
+	justify-content:center;
 
 }
-
-.copyBtn svg{
-
-width:18px;
-height:18px;
-
-}
-
-/* feedback */
 
 .msg{
 
-font-size:.75rem;
-
-letter-spacing:1px;
-
-color:var(--muted);
-
-text-align:center;
+	font-size:.75rem;
+	color:var(--muted);
+	text-align:center;
 
 }
-
-/* loading */
 
 .loading{
 
-opacity:.6;
-pointer-events:none;
+	opacity:.6;
+	pointer-events:none;
 
 }
 
-/* mobile */
+		</style>
 
-@media(max-width:480px){
+	</head>
 
-#container{
+	<body>
 
-padding:26px 20px;
+		<div id="container">
 
-}
+			<button id="themeToggle" class="themeBtn">☀</button>
 
-.resultRow{
+			<h2>Link-Shortner</h2>
+			<div class="sub">fast minimal url cutter</div>
 
-flex-direction:column;
+			<div class="inputWrap">
 
-}
+				<label>PASTE URL</label>
 
-.copyBtn{
+				<div class="inputBox">
 
-width:100%;
-height:40px;
+					<input
+							id="link"
+							type="text"
+							placeholder="https://example.com/very/long/link"
+							/>
 
-}
+					<button id="clearBtn" class="clearBtn">✕</button>
 
-}
+				</div>
 
-</style>
+			</div>
 
-</head>
+			<button id="submitBtn">CUT</button>
 
-<body>
+			<div id="shortLink"></div>
 
-<div id="container">
+			<div id="msg" class="msg"></div>
 
-<button id="themeToggle" class="themeBtn">☀</button>
+		</div>
 
-<h2>Link-Shortner</h2>
-<div class="sub">fast minimal url cutter</div>
+		<script>
 
-<div class="inputWrap">
+			const linkInput =
+				document.getElementById("link")
 
-<label>PASTE URL</label>
+			const clearBtn =
+				document.getElementById("clearBtn")
 
-<input
-id="link"
-type="text"
-placeholder="https://example.com/very/long/link"
-/>
+			const submitBtn =
+				document.getElementById("submitBtn")
 
-</div>
+			const shortLinkContainer =
+				document.getElementById("shortLink")
 
-<button id="submitBtn">CUT</button>
+			const msg =
+				document.getElementById("msg")
 
-<div id="shortLink"></div>
+			const toggleBtn =
+				document.getElementById("themeToggle")
 
-<div id="msg" class="msg"></div>
+			function validate(url){
 
-</div>
+				try{
+					new URL(url)
+					return true
+				}
+				catch{
+					return false
+				}
 
-<script>
+			}
 
-/* dom */
+			function setLoading(state){
 
-const linkInput =
-document.getElementById("link")
+				if(state){
 
-const submitBtn =
-document.getElementById("submitBtn")
+					submitBtn.textContent="CUTTING..."
+					submitBtn.disabled=true
 
-const shortLinkContainer =
-document.getElementById("shortLink")
+				}
+				else{
 
-const msg =
-document.getElementById("msg")
+					submitBtn.textContent="CUT"
+					submitBtn.disabled=false
 
-const toggleBtn =
-document.getElementById("themeToggle")
+				}
 
-/* helpers */
+			}
 
-function sanitizeLink(link){
+			function toggleClear(){
 
-return String(link).trim()
+				if(linkInput.value.trim()){
 
-}
+					clearBtn.classList.add("show")
 
-function validate(url){
+				}
+				else{
 
-try{
+					clearBtn.classList.remove("show")
 
-new URL(url)
-return true
+				}
 
-}
-catch{
+			}
 
-return false
+			clearBtn.onclick=()=>{
 
-}
+				linkInput.value=""
+				toggleClear()
+				submitBtn.disabled=true
+				linkInput.focus()
 
-}
+			}
 
-function setLoading(state){
+			async function submitLink(){
 
-if(state){
+				const url =
+					linkInput.value.trim()
 
-submitBtn.textContent = "CUTTING..."
-submitBtn.disabled = true
-submitBtn.classList.add("loading")
+				if(!url){
 
-}
-else{
+					msg.textContent="enter a url"
+					return
 
-submitBtn.textContent = "CUT"
-submitBtn.disabled = false
-submitBtn.classList.remove("loading")
+				}
 
-}
+				if(!validate(url)){
 
-}
+					msg.textContent="invalid url"
+					return
 
-/* icons */
+				}
 
-function iconCopy(){
+				msg.textContent=""
 
-return `
-<svg xmlns="http://www.w3.org/2000/svg"
-viewBox="0 0 24 24"
-fill="none"
-stroke="currentColor"
-stroke-width="2">
-<rect x="9" y="9" width="13" height="13" rx="2"/>
-<path d="M5 15H4a2 2 0 0 1-2-2V4
-a2 2 0 0 1 2-2h9
-a2 2 0 0 1 2 2v1"/>
-</svg>
-`
+				try{
 
-}
+					setLoading(true)
 
-function iconCheck(){
-
-return `
-<svg xmlns="http://www.w3.org/2000/svg"
-viewBox="0 0 24 24"
-fill="none"
-stroke="currentColor"
-stroke-width="3">
-<polyline points="20 6 9 17 4 12"/>
-</svg>
-`
-
-}
-
-/* submit */
-
-async function submitLink(){
-
-const goodLink =
-sanitizeLink(linkInput.value)
-
-if(!goodLink){
-
-msg.textContent = "enter a url"
-return
-
-}
-
-if(!validate(goodLink)){
-
-msg.textContent = "invalid url"
-return
-
-}
-
-msg.textContent = ""
-
-try{
-
-setLoading(true)
-
-const res =
-await fetch(
+					const res =
+						await fetch(
 "https://go-link-shortner.onrender.com/",
-{
-
-method:"POST",
-
-headers:{
+							{
+								method:"POST",
+								headers:{
 "Content-Type":"application/json"
-},
+								},
+								body:JSON.stringify({
+									long:url,
+									short:""
+								})
+							}
+						)
 
-body:JSON.stringify({
+					const data =
+						await res.json()
 
-long:goodLink,
-short:""
+					const wrapper =
+						document.createElement("div")
 
-})
+					wrapper.className="resultRow"
 
-}
-)
+					const returnedLink =
+						document.createElement("input")
 
-const data =
-await res.json()
+					returnedLink.className="linkToCopy"
 
-const wrapper =
-document.createElement("div")
+					returnedLink.readOnly=true
 
-wrapper.className =
-"resultRow"
+					returnedLink.value=
+"https://go-link-shortner.onrender.com/"+data
 
-const returnedLink =
-document.createElement("input")
+					const copyBtn =
+						document.createElement("button")
 
-returnedLink.className =
-"linkToCopy"
+					copyBtn.className="copyBtn"
 
-returnedLink.readOnly = true
+					copyBtn.textContent="COPY"
 
-returnedLink.value =
-"https://go-link-shortner.onrender.com/" + data
+					wrapper.appendChild(returnedLink)
+					wrapper.appendChild(copyBtn)
 
-returnedLink.onclick =
-()=> returnedLink.select()
+					shortLinkContainer.innerHTML=""
+					shortLinkContainer.appendChild(wrapper)
 
-const copyBtn =
-document.createElement("button")
+					copyBtn.onclick=async()=>{
 
-copyBtn.className =
-"copyBtn"
+						await navigator.clipboard.writeText(
+							returnedLink.value
+						)
 
-copyBtn.innerHTML =
-iconCopy()
+						msg.textContent="copied"
 
-wrapper.appendChild(returnedLink)
-wrapper.appendChild(copyBtn)
+					}
 
-shortLinkContainer.innerHTML = ""
-shortLinkContainer.appendChild(wrapper)
+				}
+				catch{
 
-copyBtn.onclick = async ()=>{
+					msg.textContent="network error"
 
-await navigator.clipboard.writeText(
-returnedLink.value
-)
+				}
+				finally{
 
-copyBtn.innerHTML =
-iconCheck()
+					setLoading(false)
 
-msg.textContent = "copied"
+				}
 
-setTimeout(()=>{
+			}
 
-copyBtn.innerHTML =
-iconCopy()
+			submitBtn.onclick=submitLink
 
-msg.textContent = ""
-
-},1500)
-
-}
-
-}
-catch{
-
-msg.textContent =
-"network error"
-
-}
-finally{
-
-setLoading(false)
-
-}
-
-}
-
-/* events */
-
-submitBtn.onclick =
-submitLink
-
-linkInput.addEventListener(
-"keydown",
-e=>{
-
-if(e.key==="Enter"){
-
-submitLink()
-
-}
-
-}
-)
-
-linkInput.addEventListener(
+			linkInput.addEventListener(
 "input",
-()=>{
+				()=>{
 
-submitBtn.disabled =
-linkInput.value.trim().length === 0
+					submitBtn.disabled=
+						linkInput.value.trim().length===0
 
-}
-)
+					toggleClear()
 
-submitBtn.disabled = true
+				}
+			)
 
-/* theme */
+			linkInput.addEventListener(
+"keydown",
+				e=>{
 
-function applyTheme(theme){
+					if(e.key==="Enter"){
 
-if(theme==="light"){
+						submitLink()
 
-document.documentElement.classList.add("light")
-toggleBtn.textContent = "🌙"
+					}
 
-}
-else{
+				}
+			)
 
-document.documentElement.classList.remove("light")
-toggleBtn.textContent = "☀"
+			submitBtn.disabled=true
 
-}
+			function applyTheme(theme){
 
-localStorage.setItem(
+				if(theme==="light"){
+
+					document.documentElement.classList.add("light")
+					toggleBtn.textContent="☀"
+
+				}
+				else{
+
+					document.documentElement.classList.remove("light")
+					toggleBtn.textContent="☀"
+
+				}
+
+				localStorage.setItem(
 "theme",
-theme
-)
+					theme
+				)
 
-}
+			}
 
-toggleBtn.onclick = ()=>{
+			toggleBtn.onclick=()=>{
 
-const isLight =
-document.documentElement.classList.contains("light")
+				const isLight=
+					document.documentElement.classList.contains("light")
 
-applyTheme(
-isLight ? "dark" : "light"
-)
+				applyTheme(
+					isLight?"dark":"light"
+				)
 
-}
+			}
 
-/* init */
+			const saved =
+				localStorage.getItem("theme")
 
-const saved =
-localStorage.getItem("theme")
+			if(saved){
 
-if(saved){
+				applyTheme(saved)
 
-applyTheme(saved)
+			}
+			else{
 
-}
-else{
-
-const prefersLight =
-window.matchMedia(
+				const prefersLight =
+					window.matchMedia(
 "(prefers-color-scheme: light)"
-).matches
+					).matches
 
-applyTheme(
-prefersLight ? "light" : "dark"
-)
+				applyTheme(
+					prefersLight?"light":"dark"
+				)
 
-}
+			}
 
-</script>
+		</script>
 
-</body>
+	</body>
 </html>
