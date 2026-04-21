@@ -1,306 +1,406 @@
 <!DOCTYPE html>
 <html>
-	<head>
+<head>
 
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<title>Link Shortener</title>
+<title>Link Shortener</title>
 
-		<style>
-		@import url('https://fonts.googleapis.com/css2?family=Datatype:wght@100..900&display=swap');
-		@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+<style>
 
-		*{
-			box-sizing:border-box;
-			margin:0;
-			padding:0;
-			font-family: "Datatype","Montserrat",sans-serif;
-		}
+@import url('https://fonts.googleapis.com/css2?family=Datatype:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
 
-		html,body{
-			height:100%;
-			overflow:hidden;
-		}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:"Datatype","Montserrat",sans-serif;
+}
 
-		body{
-			min-height:100vh;
-			display:flex;
-			justify-content:center;
-			align-items:center;
-			padding:20px;
+html,body{
+    height:100%;
+}
 
-			/*
-			background:linear-gradient(
-				0deg,
-				#000,#1a1a1a,#2b2b2b,#111,#3a3a3a,#000
-			);
-			*/
-			background: #1a1a1a;
-			background-size:400% 400%;
-			/*animation:gradientMove 20s ease infinite;*/
-		}
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:#1a1a1a;
+}
 
-		@keyframes gradientMove{
-			0%{background-position:0% 50%}
-			50%{background-position:100% 50%}
-			100%{background-position:0% 50%}
-		}
+/* container */
 
-		#container{
-			width:100%;
-			max-width:500px;
-			padding:32px 26px;
-			border-radius:22px;
+#container{
+    width:100%;
+    max-width:500px;
+    padding:32px 26px;
+    border-radius:22px;
 
-			background:rgba(255,255,255,0.05);
-			/*backdrop-filter:blur(22px);*/
-			border:1px solid rgba(255,255,255,0.2);
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.2);
 
-			/*
-			box-shadow:
-				0 10px 40px rgba(0,0,0,0.7),
-			inset 0 1px rgba(255,255,255,0.15);
-			*/
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
 
-			display:flex;
-			flex-direction:column;
-			gap:14px;
-		}
+/* heading */
 
-		h2{
-			color:#f5f5f5;
-			font-size:1.3rem;
-			font-weight:500;
-			text-align:center;
-			letter-spacing:1px;
-			margin-bottom: 0.5rem;
-		}
+h2{
+    color:#f5f5f5;
+    font-size:1.35rem;
+    font-weight:500;
+    text-align:center;
+    letter-spacing:1px;
+}
 
-		/* input */
+/* helper text */
 
-		#link{
-			width:100%;
-			padding:14px;
-			border-radius:14px;
-			border:1px solid rgba(255,255,255,0.18);
-			background:rgba(255,255,255,0.08);
-			color:#fff;
-			font-size:0.95rem;
-			transition:.25s;
-		}
+.sub{
+    font-size:0.75rem;
+    color:#aaa;
+    text-align:center;
+    letter-spacing:1px;
+}
 
-		#link::placeholder{
-			color:#bbb;
-			font-family:"Datatype";
-		}
+/* input */
 
-		#link:focus{
-			outline:none;
-			border:1px solid rgba(255,255,255,0.4);
-			background:rgba(255,255,255,0.12);
-		}
+.inputWrap{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
 
-		/* buttons */
+label{
+    font-size:0.7rem;
+    letter-spacing:2px;
+    color:#999;
+}
 
-		button{
-			padding:12px 16px;
-			border-radius:12px;
-			border:1px solid rgba(255,255,255,0.2);
-			background:rgba(255,255,255,0.12);
-			color:#fff;
-			font-size:1rem;
-			cursor:pointer;
-			transition:.2s;
-			letter-spacing:2px;
-		}
+#link{
+    width:100%;
+    padding:14px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,0.18);
+    background:rgba(255,255,255,0.08);
+    color:#fff;
+    font-size:0.95rem;
+    transition:.2s;
+}
 
-		button:hover{
-			background:rgba(255,255,255,0.2);
-			transform:translateY(-1px);
-		}
+#link::placeholder{
+    color:#777;
+}
 
-		button:active{
-			transform:scale(.96);
-		}
+#link:focus{
+    outline:none;
+    border:1px solid rgba(255,255,255,0.4);
+    background:rgba(255,255,255,0.12);
+}
 
-		/* result */
+/* button */
 
-		#shortLink{
-			margin-top:10px;
-			display:flex;
-			justify-content:center;
-			width:100%;
-		}
+button{
+    padding:13px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.2);
+    background:rgba(255,255,255,0.12);
+    color:#fff;
+    font-size:0.95rem;
+    cursor:pointer;
+    transition:.18s;
+    letter-spacing:2px;
+}
 
-		.resultRow{
-			display:flex;
-			width:100%;
-			gap:8px;
-			align-items:center;
-		}
+button:hover:not(:disabled){
+    background:rgba(255,255,255,0.2);
+    transform:translateY(-1px);
+}
 
-		/* textbox */
+button:active:not(:disabled){
+    transform:scale(.96);
+}
 
-		.linkToCopy{
-			flex:1;
-			min-width:0;
-			padding:12px;
-			border-radius:12px;
-			border:1px solid rgba(255,255,255,0.18);
-			background:rgba(255,255,255,0.08);
-			color:#fff;
-			font-size:0.9rem;
-			outline:none;
-		}
+button:disabled{
+    opacity:.35;
+    cursor:not-allowed;
+}
 
-		/* copy button */
+/* result */
 
-		.copyBtn{
-			display:flex;
-			justify-content:center;
-			align-items:center;
-			width:42px;
-			height:42px;
-			font-size:18px;
-			border-radius:10px;
-			padding:0;
-			flex-shrink:0;
-		}
+#shortLink{
+    min-height:46px;
+    display:flex;
+    align-items:center;
+}
 
-		.copyBtn svg{
-			width:18px;
-			height:18px;
-			pointer-events:none;
-		}
+.resultRow{
+    display:flex;
+    width:100%;
+    gap:8px;
+}
 
-		/* responsive */
+.linkToCopy{
+    flex:1;
+    padding:12px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.18);
+    background:rgba(255,255,255,0.08);
+    color:#fff;
+    font-size:0.9rem;
+}
 
-		@media (max-width:480px){
+.copyBtn{
+    width:44px;
+    height:44px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
 
-			#container{
-				padding:26px 20px;
-			}
+.copyBtn svg{
+    width:18px;
+    height:18px;
+}
 
-			h2{
-				font-size:1.1rem;
-			}
+/* feedback */
 
-			#link{
-				font-size:0.9rem;
-				padding:12px;
-			}
+.msg{
+    font-size:0.75rem;
+    letter-spacing:1px;
+    color:#888;
+    text-align:center;
+}
 
-			button{
-				font-size:0.85rem;
-				padding:11px;
-			}
+/* loading */
 
-			/* allow wrap on very small screens */
+.loading{
+    opacity:.6;
+    pointer-events:none;
+}
 
-			.resultRow{
-				flex-wrap:wrap;
-			}
+/* responsive */
 
-			.copyBtn{
-				width:100%;
-				height:38px;
-			}
-		}
-		</style>
-	</head>
+@media(max-width:480px){
 
-	<body>
+    #container{
+        padding:26px 20px;
+    }
 
-		<div id="container">
-			<h2>Link-Circumciser</h2>
-			<input type="text" placeholder="paste-url-here" id="link">
-			<button onclick="submitLink()">CUT</button>
-			<div id="shortLink"></div>
-		</div>
+    .resultRow{
+        flex-direction:column;
+    }
 
-		<script>
+    .copyBtn{
+        width:100%;
+        height:40px;
+    }
+}
 
-			const linkInput = document.getElementById("link")
-			const shortLinkContainer = document.getElementById("shortLink")
+</style>
+</head>
 
-			function sanitizeLink(link){
-				const str = String(link).trim()
-				if(str.length === 0) return ""
-				return str
-			}
+<body>
 
-			async function submitLink(){
+<div id="container">
 
-				try{
+<h2>Link-Shortner</h2>
+<div class="sub">fast minimal url cutter</div>
 
-					const goodLink = sanitizeLink(linkInput.value)
+<div class="inputWrap">
+<label>PASTE URL</label>
+<input
+type="text"
+id="link"
+placeholder="https://example.com/very/long/link"
+/>
+</div>
 
-					if(!goodLink) return
+<button id="submitBtn">CUT</button>
 
-					const res = await fetch("https://go-link-shortner.onrender.com/",{
-						method:"POST",
-						headers:{
-							"Content-Type":"application/json"
-						},
-						body:JSON.stringify({
-							long:goodLink,
-							short:""
-						})
-					})
+<div id="shortLink"></div>
 
-					const data = await res.json()
+<div id="msg" class="msg"></div>
 
-					const wrapper = document.createElement("div")
-					wrapper.className = "resultRow"
+</div>
 
-					const returnedLink = document.createElement("input")
-					returnedLink.className = "linkToCopy"
-					returnedLink.readOnly = true
-					returnedLink.value = "go-link-shortner.onrender.com/" + data
+<script>
 
-					const copyBtn = document.createElement("button")
-					copyBtn.className = "copyBtn"
+const linkInput = document.getElementById("link")
+const submitBtn = document.getElementById("submitBtn")
+const shortLinkContainer = document.getElementById("shortLink")
+const msg = document.getElementById("msg")
 
-					copyBtn.innerHTML = `
-					<svg xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round">
-					<rect x="9" y="9" width="13" height="13" rx="2"></rect>
-					<path d="M5 15H4a2 2 0 0 1-2-2V4
-					a2 2 0 0 1 2-2h9
-					a2 2 0 0 1 2 2v1"></path>
-					</svg>
-					`
+function sanitizeLink(link){
+    const str = String(link).trim()
+    return str
+}
 
-					wrapper.appendChild(returnedLink)
-					wrapper.appendChild(copyBtn)
+function setLoading(state){
 
-					shortLinkContainer.innerHTML = ""
-					shortLinkContainer.appendChild(wrapper)
+    if(state){
+        submitBtn.textContent = "CUTTING..."
+        submitBtn.classList.add("loading")
+        submitBtn.disabled = true
+    }
+    else{
+        submitBtn.textContent = "CUT"
+        submitBtn.classList.remove("loading")
+        submitBtn.disabled = false
+    }
+}
 
-					copyBtn.addEventListener("click", async ()=>{
-						await navigator.clipboard.writeText(returnedLink.value)
-						copyBtn.innerHTML = `
-						<svg xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="3"
-						stroke-linecap="round"
-						stroke-linejoin="round">
-						<polyline points="20 6 9 17 4 12"></polyline>
-						</svg>
-						`
-					})
-				}catch(err){
-					console.error("fetch error",err)
-				}
-			}
-		</script>
-	</body>
+function validate(url){
+
+    try{
+        new URL(url)
+        return true
+    }
+    catch{
+        return false
+    }
+}
+
+async function submitLink(){
+
+    const goodLink = sanitizeLink(linkInput.value)
+
+    if(!goodLink){
+        msg.textContent = "enter a url"
+        return
+    }
+
+    if(!validate(goodLink)){
+        msg.textContent = "invalid url format"
+        return
+    }
+
+    msg.textContent = ""
+
+    try{
+
+        setLoading(true)
+
+        const res = await fetch(
+            "https://go-link-shortner.onrender.com/",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    long:goodLink,
+                    short:""
+                })
+            }
+        )
+
+        const data = await res.json()
+
+        const wrapper = document.createElement("div")
+        wrapper.className = "resultRow"
+
+        const returnedLink = document.createElement("input")
+        returnedLink.className = "linkToCopy"
+        returnedLink.readOnly = true
+        returnedLink.value =
+            "https://go-link-shortner.onrender.com/" + data
+
+        returnedLink.onclick = () => returnedLink.select()
+
+        const copyBtn = document.createElement("button")
+        copyBtn.className = "copyBtn"
+
+        copyBtn.innerHTML = iconCopy()
+
+        wrapper.appendChild(returnedLink)
+        wrapper.appendChild(copyBtn)
+
+        shortLinkContainer.innerHTML = ""
+        shortLinkContainer.appendChild(wrapper)
+
+        copyBtn.onclick = async ()=>{
+
+            await navigator.clipboard.writeText(returnedLink.value)
+
+            copyBtn.innerHTML = iconCheck()
+
+            msg.textContent = "copied"
+
+            setTimeout(()=>{
+                copyBtn.innerHTML = iconCopy()
+                msg.textContent = ""
+            },1500)
+        }
+
+    }
+    catch(e){
+
+        msg.textContent = "network error"
+
+    }
+    finally{
+
+        setLoading(false)
+
+    }
+
+}
+
+/* icons */
+
+function iconCopy(){
+return `
+<svg xmlns="http://www.w3.org/2000/svg"
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="2">
+<rect x="9" y="9" width="13" height="13" rx="2"/>
+<path d="M5 15H4a2 2 0 0 1-2-2V4
+a2 2 0 0 1 2-2h9
+a2 2 0 0 1 2 2v1"/>
+</svg>`
+}
+
+function iconCheck(){
+return `
+<svg xmlns="http://www.w3.org/2000/svg"
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="3">
+<polyline points="20 6 9 17 4 12"/>
+</svg>`
+}
+
+/* events */
+
+submitBtn.onclick = submitLink
+
+linkInput.addEventListener("input",()=>{
+
+    submitBtn.disabled =
+        linkInput.value.trim().length === 0
+
+})
+
+linkInput.addEventListener("keydown",e=>{
+
+    if(e.key === "Enter"){
+        submitLink()
+    }
+
+})
+
+submitBtn.disabled = true
+
+</script>
+
+</body>
 </html>
