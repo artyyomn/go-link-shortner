@@ -1,863 +1,694 @@
 <!DOCTYPE html>
 <html>
-	<head>
+<head>
 
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<title>Link Shortener</title>
+<title>Link Shortener</title>
 
-		<style>
-<<<<<<< HEAD
+<style>
 
 @import url('https://fonts.googleapis.com/css2?family=Datatype:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
 
-/* theme */
+/* theme vars */
 
 :root{
-	--bg:#1a1a1a;
-	--card:rgba(255,255,255,0.05);
-	--border:rgba(255,255,255,0.2);
-	--input:rgba(255,255,255,0.08);
-	--input-focus:rgba(255,255,255,0.12);
-	--btn:rgba(255,255,255,0.12);
-	--btn-hover:rgba(255,255,255,0.2);
 
-	--text:#f5f5f5;
-	--muted:#999;
+--bg:#1a1a1a;
+--card:rgba(255,255,255,0.05);
+--border:rgba(255,255,255,0.2);
+--input:rgba(255,255,255,0.08);
+--input-focus:rgba(255,255,255,0.12);
+--btn:rgba(255,255,255,0.12);
+--btn-hover:rgba(255,255,255,0.2);
+
+--text:#f5f5f5;
+--muted:#999;
+--sub:#aaa;
+
 }
 
 .light{
-	--bg:#f5f5f5;
-	--card:rgba(0,0,0,0.04);
-	--border:rgba(0,0,0,0.15);
-	--input:rgba(0,0,0,0.05);
-	--input-focus:rgba(0,0,0,0.08);
-	--btn:rgba(0,0,0,0.08);
-	--btn-hover:rgba(0,0,0,0.15);
 
-	--text:#111;
-	--muted:#666;
+--bg:#f5f5f5;
+--card:rgba(0,0,0,0.04);
+--border:rgba(0,0,0,0.15);
+--input:rgba(0,0,0,0.05);
+--input-focus:rgba(0,0,0,0.08);
+--btn:rgba(0,0,0,0.08);
+--btn-hover:rgba(0,0,0,0.15);
+
+--text:#111;
+--muted:#555;
+--sub:#666;
+
 }
 
 /* base */
 
 *{
-	box-sizing:border-box;
-	margin:0;
-	padding:0;
-	font-family:"Datatype","Montserrat",sans-serif;
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:"Datatype","Montserrat",sans-serif;
+}
+
+html,body{
+height:100%;
 }
 
 body{
-	min-height:100vh;
-	display:flex;
-	justify-content:center;
-	align-items:center;
-	padding:20px;
-	background:var(--bg);
+
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+
+background:var(--bg);
+transition:.25s;
+
 }
 
-/* card */
+/* container */
 
 #container{
-	position:relative;
 
-	width:100%;
-	max-width:500px;
+position:relative;
 
-	padding:32px 26px;
+width:100%;
+max-width:500px;
 
-	border-radius:22px;
+padding:32px 26px;
 
-	background:var(--card);
-	border:1px solid var(--border);
+border-radius:22px;
 
-	box-shadow:
-		0 12px 40px rgba(0,0,0,.35),
-	inset 0 1px rgba(255,255,255,.05);
+background:var(--card);
+border:1px solid var(--border);
 
 display:flex;
 flex-direction:column;
 gap:16px;
+
 }
 
-/* theme button */
+/* theme toggle */
 
 .themeBtn{
-	position:absolute;
-	top:14px;
-	right:14px;
 
-	width:38px;
-	height:38px;
+position:absolute;
+top:14px;
+right:14px;
 
-	display:flex;
-	align-items:center;
-	justify-content:center;
+width:38px;
+height:38px;
 
-	border-radius:10px;
-	padding:0;
+border-radius:10px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+padding:0;
+letter-spacing:0;
+
+font-size:16px;
+line-height:1;
+
+}
+
+/* heading */
+
+h2{
+
+color:var(--text);
+font-size:1.35rem;
+font-weight:500;
+
+text-align:center;
+letter-spacing:1px;
+
+}
+
+/* helper */
+
+.sub{
+
+font-size:.75rem;
+color:var(--sub);
+
+text-align:center;
+letter-spacing:1px;
+
 }
 
 /* input */
 
 .inputWrap{
-	position:relative;
+
+display:flex;
+flex-direction:column;
+gap:6px;
+
+}
+
+label{
+
+font-size:.7rem;
+letter-spacing:2px;
+
+color:var(--muted);
+
 }
 
 #link{
 
-	width:100%;
+width:100%;
 
-	padding:14px 40px 14px 14px;
+padding:14px;
 
-	border-radius:14px;
+border-radius:14px;
 
-	border:1px solid var(--border);
+border:1px solid var(--border);
+background:var(--input);
 
-	background:var(--input);
+color:var(--text);
 
-	color:var(--text);
+font-size:.95rem;
 
-}
-
-.clearBtn{
-
-	position:absolute;
-
-	right:8px;
-	top:50%;
-
-	transform:translateY(-50%);
-
-	width:26px;
-	height:26px;
-
-	display:flex;
-	align-items:center;
-	justify-content:center;
-
-	border-radius:8px;
-
-	padding:0;
-
-	font-size:14px;
-
-	opacity:.6;
+transition:.2s;
 
 }
 
-.clearBtn:hover{
-	opacity:1;
+#link::placeholder{
+
+color:var(--muted);
+
+}
+
+#link:focus{
+
+outline:none;
+
+border:1px solid var(--border);
+background:var(--input-focus);
+
 }
 
 /* button */
 
 button{
 
-	padding:12px;
+padding:13px;
 
-	border-radius:12px;
+border-radius:12px;
 
-	border:1px solid var(--border);
+border:1px solid var(--border);
+background:var(--btn);
 
-	background:var(--btn);
+color:var(--text);
 
-	color:var(--text);
+font-size:.95rem;
 
-	cursor:pointer;
+cursor:pointer;
 
-	letter-spacing:2px;
+transition:.18s;
+
+letter-spacing:2px;
 
 }
 
 button:hover:not(:disabled){
-	background:var(--btn-hover);
+
+background:var(--btn-hover);
+transform:translateY(-1px);
+
+}
+
+button:active:not(:disabled){
+
+transform:scale(.96);
+
+}
+
+button:disabled{
+
+opacity:.35;
+cursor:not-allowed;
+
 }
 
 /* result */
 
 #shortLink{
 
-	display:flex;
-	flex-direction:column;
+min-height:46px;
 
-	gap:10px;
+display:flex;
+align-items:center;
 
 }
 
-/* result row */
-
 .resultRow{
 
-	display:flex;
-	gap:8px;
+display:flex;
+gap:8px;
 
-	animation:fade .2s ease;
+width:100%;
 
 }
 
 .linkToCopy{
 
-	flex:1;
+flex:1;
 
-	padding:12px;
+padding:12px;
 
-	border-radius:12px;
+border-radius:12px;
 
-	border:1px solid var(--border);
+border:1px solid var(--border);
+background:var(--input);
 
-	background:var(--input);
+color:var(--text);
 
-	color:var(--text);
-
-}
-
-/* icon buttons */
-
-.iconBtn{
-
-	width:44px;
-	height:44px;
-
-	display:flex;
-	align-items:center;
-	justify-content:center;
-
-	padding:0;
-
-	border-radius:10px;
+font-size:.9rem;
 
 }
 
-/* qr */
+/* copy button */
 
-.qrWrap{
+.copyBtn{
 
-	display:flex;
-	flex-direction:column;
-	align-items:center;
-	gap:8px;
+width:44px;
+height:44px;
 
-	animation:fade .25s ease;
+border-radius:10px;
 
-}
+display:flex;
+align-items:center;
+justify-content:center;
 
-.qr{
-
-	width:90px;
-	height:90px;
-
-	border-radius:8px;
+padding:0;
 
 }
 
-/* spinner */
+.copyBtn svg{
 
-.spinner{
-
-	width:16px;
-	height:16px;
-
-	border:2px solid transparent;
-	border-top:2px solid currentColor;
-
-	border-radius:50%;
-
-	animation:spin .6s linear infinite;
+width:18px;
+height:18px;
 
 }
 
-/* animations */
-
-@keyframes spin{
-	to{transform:rotate(360deg)}
-}
-
-@keyframes fade{
-	from{opacity:0; transform:translateY(6px)}
-	to{opacity:1; transform:translateY(0)}
-}
+/* feedback */
 
 .msg{
 
-	font-size:.75rem;
-	color:var(--muted);
-	text-align:center;
+font-size:.75rem;
+
+letter-spacing:1px;
+
+color:var(--muted);
+
+text-align:center;
 
 }
 
-		</style>
+/* loading */
 
-=======
-		@import url('https://fonts.googleapis.com/css2?family=Datatype:wght@100..900&display=swap');
-		@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+.loading{
 
-		*{
-			box-sizing:border-box;
-			margin:0;
-			padding:0;
-			font-family: "Datatype","Montserrat",sans-serif;
-		}
-
-		html,body{
-			height:100%;
-			overflow:hidden;
-		}
-
-		body{
-			min-height:100vh;
-			display:flex;
-			justify-content:center;
-			align-items:center;
-			padding:20px;
-
-			/*
-			background:linear-gradient(
-				0deg,
-				#000,#1a1a1a,#2b2b2b,#111,#3a3a3a,#000
-			);
-			*/
-			background: #1a1a1a;
-			background-size:400% 400%;
-			/*animation:gradientMove 20s ease infinite;*/
-		}
-
-		@keyframes gradientMove{
-			0%{background-position:0% 50%}
-			50%{background-position:100% 50%}
-			100%{background-position:0% 50%}
-		}
-
-		#container{
-			width:100%;
-			max-width:500px;
-			padding:32px 26px;
-			border-radius:22px;
-
-			background:rgba(255,255,255,0.05);
-			/*backdrop-filter:blur(22px);*/
-			border:1px solid rgba(255,255,255,0.2);
-
-			/*
-			box-shadow:
-				0 10px 40px rgba(0,0,0,0.7),
-			inset 0 1px rgba(255,255,255,0.15);
-			*/
-
-			display:flex;
-			flex-direction:column;
-			gap:14px;
-		}
-
-		h2{
-			color:#f5f5f5;
-			font-size:1.3rem;
-			font-weight:500;
-			text-align:center;
-			letter-spacing:1px;
-			margin-bottom: 0.5rem;
-		}
-
-		/* input */
-
-		#link{
-			width:100%;
-			padding:14px;
-			border-radius:14px;
-			border:1px solid rgba(255,255,255,0.18);
-			background:rgba(255,255,255,0.08);
-			color:#fff;
-			font-size:0.95rem;
-			transition:.25s;
-		}
-
-		#link::placeholder{
-			color:#bbb;
-			font-family:"Datatype";
-		}
-
-		#link:focus{
-			outline:none;
-			border:1px solid rgba(255,255,255,0.4);
-			background:rgba(255,255,255,0.12);
-		}
-
-		/* buttons */
-
-		button{
-			padding:12px 16px;
-			border-radius:12px;
-			border:1px solid rgba(255,255,255,0.2);
-			background:rgba(255,255,255,0.12);
-			color:#fff;
-			font-size:1rem;
-			cursor:pointer;
-			transition:.2s;
-			letter-spacing:2px;
-		}
-
-		button:hover{
-			background:rgba(255,255,255,0.2);
-			transform:translateY(-1px);
-		}
-
-		button:active{
-			transform:scale(.96);
-		}
-
-		/* result */
-
-		#shortLink{
-			margin-top:10px;
-			display:flex;
-			justify-content:center;
-			width:100%;
-		}
-
-		.resultRow{
-			display:flex;
-			width:100%;
-			gap:8px;
-			align-items:center;
-		}
-
-		/* textbox */
-
-		.linkToCopy{
-			flex:1;
-			min-width:0;
-			padding:12px;
-			border-radius:12px;
-			border:1px solid rgba(255,255,255,0.18);
-			background:rgba(255,255,255,0.08);
-			color:#fff;
-			font-size:0.9rem;
-			outline:none;
-		}
-
-		/* copy button */
-
-		.copyBtn{
-			display:flex;
-			justify-content:center;
-			align-items:center;
-			width:42px;
-			height:42px;
-			font-size:18px;
-			border-radius:10px;
-			padding:0;
-			flex-shrink:0;
-		}
-
-		.copyBtn svg{
-			width:18px;
-			height:18px;
-			pointer-events:none;
-		}
-
-		/* responsive */
-
-		@media (max-width:480px){
-
-			#container{
-				padding:26px 20px;
-			}
-
-			h2{
-				font-size:1.1rem;
-			}
-
-			#link{
-				font-size:0.9rem;
-				padding:12px;
-			}
-
-			button{
-				font-size:0.85rem;
-				padding:11px;
-			}
-
-			/* allow wrap on very small screens */
-
-			.resultRow{
-				flex-wrap:wrap;
-			}
-
-			.copyBtn{
-				width:100%;
-				height:38px;
-			}
-		}
-		</style>
->>>>>>> parent of d8c6964 (removed circumcision and improved UX)
-	</head>
-
-	<body>
-
-		<div id="container">
-			<h2>Link-Circumciser</h2>
-			<input type="text" placeholder="paste-url-here" id="link">
-			<button onclick="submitLink()">CUT</button>
-			<div id="shortLink"></div>
->>>>>>> parent of d8c6964 (removed circumcision and improved UX)
-		</div>
-
-		<script>
-
-			const linkInput = document.getElementById("link")
-<<<<<<< HEAD
-			const submitBtn = document.getElementById("submitBtn")
-			const clearBtn = document.getElementById("clearBtn")
-			const shortLinkContainer = document.getElementById("shortLink")
-			const msg = document.getElementById("msg")
-			const toggleBtn = document.getElementById("themeToggle")
-
-			let latestShort = ""
-
-			/* helpers */
-
-			function normalize(url){
-
-				if(!/^https?:\/\//i.test(url)){
-					return "https://" + url.trim()
-				}
-
-			return url.trim()
+opacity:.6;
+pointer-events:none;
 
 }
 
-			function spinner(){
+/* mobile */
 
-				return '<div class="spinner"></div>'
+@media(max-width:480px){
 
-			}
+#container{
 
-			function iconCopy(){
+padding:26px 20px;
 
-				return `
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+}
+
+.resultRow{
+
+flex-direction:column;
+
+}
+
+.copyBtn{
+
+width:100%;
+height:40px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="container">
+
+<button id="themeToggle" class="themeBtn">☀</button>
+
+<h2>Link-Shortner</h2>
+<div class="sub">fast minimal url cutter</div>
+
+<div class="inputWrap">
+
+<label>PASTE URL</label>
+
+<input
+id="link"
+type="text"
+placeholder="https://example.com/very/long/link"
+/>
+
+</div>
+
+<button id="submitBtn">CUT</button>
+
+<div id="shortLink"></div>
+
+<div id="msg" class="msg"></div>
+
+</div>
+
+<script>
+
+/* dom */
+
+const linkInput =
+document.getElementById("link")
+
+const submitBtn =
+document.getElementById("submitBtn")
+
+const shortLinkContainer =
+document.getElementById("shortLink")
+
+const msg =
+document.getElementById("msg")
+
+const toggleBtn =
+document.getElementById("themeToggle")
+
+/* helpers */
+
+function sanitizeLink(link){
+
+return String(link).trim()
+
+}
+
+function validate(url){
+
+try{
+
+new URL(url)
+return true
+
+}
+catch{
+
+return false
+
+}
+
+}
+
+function setLoading(state){
+
+if(state){
+
+submitBtn.textContent = "CUTTING..."
+submitBtn.disabled = true
+submitBtn.classList.add("loading")
+
+}
+else{
+
+submitBtn.textContent = "CUT"
+submitBtn.disabled = false
+submitBtn.classList.remove("loading")
+
+}
+
+}
+
+/* icons */
+
+function iconCopy(){
+
+return `
+<svg xmlns="http://www.w3.org/2000/svg"
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="2">
 <rect x="9" y="9" width="13" height="13" rx="2"/>
-<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+<path d="M5 15H4a2 2 0 0 1-2-2V4
+a2 2 0 0 1 2-2h9
+a2 2 0 0 1 2 2v1"/>
 </svg>
 `
 
-			}
+}
 
-			function iconQR(){
+function iconCheck(){
 
-				return `
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-<rect x="3" y="3" width="5" height="5"/>
-<rect x="16" y="3" width="5" height="5"/>
-<rect x="3" y="16" width="5" height="5"/>
-<path d="M16 16h2v2h-2z"/>
+return `
+<svg xmlns="http://www.w3.org/2000/svg"
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="3">
+<polyline points="20 6 9 17 4 12"/>
 </svg>
 `
 
-			}
+}
 
-			/* submit */
+/* submit */
 
-			async function submitLink(){
+async function submitLink(){
 
-				let url = normalize(linkInput.value)
+const goodLink =
+sanitizeLink(linkInput.value)
 
-				if(!url){
-					msg.textContent="enter url"
-					return
-				}
+if(!goodLink){
 
-				try{
+msg.textContent = "enter a url"
+return
 
-					submitBtn.innerHTML = spinner()
-					submitBtn.disabled = true
+}
 
-					const res = await fetch("https://go-link-shortner.onrender.com/",{
+if(!validate(goodLink)){
 
-						method:"POST",
-						headers:{ "Content-Type":"application/json" },
+msg.textContent = "invalid url"
+return
 
-						body:JSON.stringify({
+}
 
-							long:url,
-							short:""
+msg.textContent = ""
 
-						})
+try{
 
-=======
-			const shortLinkContainer = document.getElementById("shortLink")
+setLoading(true)
 
-			function sanitizeLink(link){
-				const str = String(link).trim()
-				if(str.length === 0) return ""
-				return str
-			}
+const res =
+await fetch(
+"https://go-link-shortner.onrender.com/",
+{
 
-			async function submitLink(){
+method:"POST",
 
-				try{
+headers:{
+"Content-Type":"application/json"
+},
 
-					const goodLink = sanitizeLink(linkInput.value)
+body:JSON.stringify({
 
-					if(!goodLink) return
+long:goodLink,
+short:""
 
-					const res = await fetch("https://go-link-shortner.onrender.com/",{
-						method:"POST",
-						headers:{
-							"Content-Type":"application/json"
-						},
-						body:JSON.stringify({
-							long:goodLink,
-							short:""
-						})
->>>>>>> parent of d8c6964 (removed circumcision and improved UX)
-					})
+})
 
-					const data = await res.json()
+}
+)
 
-<<<<<<< HEAD
-					latestShort =
+const data =
+await res.json()
+
+const wrapper =
+document.createElement("div")
+
+wrapper.className =
+"resultRow"
+
+const returnedLink =
+document.createElement("input")
+
+returnedLink.className =
+"linkToCopy"
+
+returnedLink.readOnly = true
+
+returnedLink.value =
 "https://go-link-shortner.onrender.com/" + data
 
-					const wrapper =
-						document.createElement("div")
+returnedLink.onclick =
+()=> returnedLink.select()
 
-					wrapper.className="resultRow"
+const copyBtn =
+document.createElement("button")
 
-					const resultInput =
-						document.createElement("input")
+copyBtn.className =
+"copyBtn"
 
-					resultInput.className="linkToCopy"
+copyBtn.innerHTML =
+iconCopy()
 
-					resultInput.value = latestShort
+wrapper.appendChild(returnedLink)
+wrapper.appendChild(copyBtn)
 
-					resultInput.readOnly = true
+shortLinkContainer.innerHTML = ""
+shortLinkContainer.appendChild(wrapper)
 
-					const copyBtn =
-						document.createElement("button")
+copyBtn.onclick = async ()=>{
 
-					copyBtn.className="iconBtn"
+await navigator.clipboard.writeText(
+returnedLink.value
+)
 
-					copyBtn.innerHTML = iconCopy()
+copyBtn.innerHTML =
+iconCheck()
 
-					copyBtn.onclick = async ()=>{
+msg.textContent = "copied"
 
-						await navigator.clipboard.writeText(latestShort)
+setTimeout(()=>{
 
-						msg.textContent="copied"
+copyBtn.innerHTML =
+iconCopy()
 
-					}
+msg.textContent = ""
 
-					const qrBtn =
-						document.createElement("button")
+},1500)
 
-					qrBtn.className="iconBtn"
+}
 
-					qrBtn.innerHTML = iconQR()
+}
+catch{
 
-					qrBtn.onclick = ()=>{
+msg.textContent =
+"network error"
 
-						renderQR()
+}
+finally{
 
-					}
+setLoading(false)
 
-					wrapper.appendChild(resultInput)
-					wrapper.appendChild(copyBtn)
-					wrapper.appendChild(qrBtn)
+}
 
-					shortLinkContainer.innerHTML=""
-					shortLinkContainer.appendChild(wrapper)
+}
 
-				}
-				catch{
+/* events */
 
-					msg.textContent="error"
+submitBtn.onclick =
+submitLink
 
-				}
-				finally{
+linkInput.addEventListener(
+"keydown",
+e=>{
 
-					submitBtn.textContent="CUT"
-					submitBtn.disabled=false
+if(e.key==="Enter"){
 
-				}
+submitLink()
 
-			}
+}
 
-			/* qr */
+}
+)
 
-			function renderQR(){
+linkInput.addEventListener(
+"input",
+()=>{
 
-				const wrap =
-					document.createElement("div")
+submitBtn.disabled =
+linkInput.value.trim().length === 0
 
-				wrap.className="qrWrap"
+}
+)
 
-				const img =
-					document.createElement("img")
+submitBtn.disabled = true
 
-				img.className="qr"
+/* theme */
 
-				img.src =
-"https://api.qrserver.com/v1/create-qr-code/?size=90x90&data="
-					+ encodeURIComponent(latestShort)
+function applyTheme(theme){
 
-				wrap.appendChild(img)
+if(theme==="light"){
 
-				shortLinkContainer.appendChild(wrap)
+document.documentElement.classList.add("light")
+toggleBtn.textContent = "🌙"
 
-			}
+}
+else{
 
-			/* input events */
+document.documentElement.classList.remove("light")
+toggleBtn.textContent = "☀"
 
-			linkInput.addEventListener("input",()=>{
+}
 
-				submitBtn.disabled =
-					linkInput.value.trim()===""
+localStorage.setItem(
+"theme",
+theme
+)
 
-			})
+}
 
-			linkInput.addEventListener("paste",()=>{
+toggleBtn.onclick = ()=>{
 
-				setTimeout(()=>{
+const isLight =
+document.documentElement.classList.contains("light")
 
-					submitBtn.disabled =
-						linkInput.value.trim()===""
+applyTheme(
+isLight ? "dark" : "light"
+)
 
-				},0)
+}
 
-			})
+/* init */
 
-			linkInput.addEventListener("keydown",e=>{
+const saved =
+localStorage.getItem("theme")
 
-				if(e.key==="Enter") submitLink()
+if(saved){
 
-			})
+applyTheme(saved)
 
-			clearBtn.onclick = ()=>{
+}
+else{
 
-				linkInput.value=""
+const prefersLight =
+window.matchMedia(
+"(prefers-color-scheme: light)"
+).matches
 
-				shortLinkContainer.innerHTML=""
+applyTheme(
+prefersLight ? "light" : "dark"
+)
 
-				msg.textContent=""
+}
 
-				submitBtn.disabled=true
+</script>
 
-				linkInput.focus()
-
-			}
-
-			/* theme */
-
-			function applyTheme(theme){
-
-				if(theme==="light"){
-
-					document.documentElement.classList.add("light")
-
-					toggleBtn.textContent="🌙"
-
-				}
-				else{
-
-					document.documentElement.classList.remove("light")
-
-					toggleBtn.textContent="☀"
-
-				}
-
-				localStorage.setItem("theme",theme)
-
-			}
-
-			toggleBtn.onclick=()=>{
-
-				const light =
-					document.documentElement.classList.contains("light")
-
-				applyTheme(light?"dark":"light")
-
-			}
-
-			const saved =
-				localStorage.getItem("theme")
-
-			if(saved){
-
-				applyTheme(saved)
-
-			}
-			else{
-
-				applyTheme(
-					window.matchMedia("(prefers-color-scheme: light)").matches
-					? "light"
-					: "dark"
-				)
-
-			}
-
-			submitBtn.disabled=true
-
-			submitBtn.onclick = submitLink
-
-		</script>
-
-=======
-					const wrapper = document.createElement("div")
-					wrapper.className = "resultRow"
-
-					const returnedLink = document.createElement("input")
-					returnedLink.className = "linkToCopy"
-					returnedLink.readOnly = true
-					returnedLink.value = "go-link-shortner.onrender.com/" + data
-
-					const copyBtn = document.createElement("button")
-					copyBtn.className = "copyBtn"
-
-					copyBtn.innerHTML = `
-					<svg xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round">
-					<rect x="9" y="9" width="13" height="13" rx="2"></rect>
-					<path d="M5 15H4a2 2 0 0 1-2-2V4
-					a2 2 0 0 1 2-2h9
-					a2 2 0 0 1 2 2v1"></path>
-					</svg>
-					`
-
-					wrapper.appendChild(returnedLink)
-					wrapper.appendChild(copyBtn)
-
-					shortLinkContainer.innerHTML = ""
-					shortLinkContainer.appendChild(wrapper)
-
-					copyBtn.addEventListener("click", async ()=>{
-						await navigator.clipboard.writeText(returnedLink.value)
-						copyBtn.innerHTML = `
-						<svg xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="3"
-						stroke-linecap="round"
-						stroke-linejoin="round">
-						<polyline points="20 6 9 17 4 12"></polyline>
-						</svg>
-						`
-					})
-				}catch(err){
-					console.error("fetch error",err)
-				}
-			}
-		</script>
->>>>>>> parent of d8c6964 (removed circumcision and improved UX)
-	</body>
+</body>
 </html>
