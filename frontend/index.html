@@ -8,7 +8,6 @@
 		<title>Link Shortener</title>
 
 		<style>
-
 @import url('https://fonts.googleapis.com/css2?family=Datatype:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
 
@@ -341,205 +340,124 @@ button:disabled{
 		</div>
 
 		<script>
-
-			const linkInput =
-				document.getElementById("link")
-
-			const clearBtn =
-				document.getElementById("clearBtn")
-
-			const submitBtn =
-				document.getElementById("submitBtn")
-
-			const shortLinkContainer =
-				document.getElementById("shortLink")
-
-			const msg =
-				document.getElementById("msg")
-
-			const toggleBtn =
-				document.getElementById("themeToggle")
+			const linkInput = document.getElementById("link")
+			const clearBtn = document.getElementById("clearBtn")
+			const submitBtn = document.getElementById("submitBtn")
+			const shortLinkContainer = document.getElementById("shortLink")
+			const msg = document.getElementById("msg")
+			const toggleBtn = document.getElementById("themeToggle")
 
 			function validate(url){
-
 				try{
 					new URL(url)
 					return true
-				}
-				catch{
+				}catch{
 					return false
 				}
-
 			}
 
 			function setLoading(state){
-
 				if(state){
-
 					submitBtn.textContent="CUTTING..."
 					submitBtn.disabled=true
-
-				}
-				else{
-
+				}else{
 					submitBtn.textContent="CUT"
 					submitBtn.disabled=false
-
 				}
-
 			}
 
 			function toggleClear(){
-
 				if(linkInput.value.trim()){
-
 					clearBtn.classList.add("show")
-
-				}
-				else{
-
+				}else{
 					clearBtn.classList.remove("show")
-
 				}
-
 			}
 
 			clearBtn.onclick=()=>{
-
 				linkInput.value=""
 				toggleClear()
 				submitBtn.disabled=true
 				linkInput.focus()
-
 			}
 
 			async function submitLink(){
-
-				const url =
-					linkInput.value.trim()
+				const url = linkInput.value.trim()
 
 				if(!url){
-
 					msg.textContent="enter a url"
 					return
-
 				}
 
 				if(!validate(url)){
-
 					msg.textContent="invalid url"
 					return
-
 				}
 
 				msg.textContent=""
 
 				try{
-
 					setLoading(true)
 
-					const res =
-						await fetch(
-"https://go-link-shortner.onrender.com/",
-							{
-								method:"POST",
-								headers:{
-"Content-Type":"application/json"
-								},
-								body:JSON.stringify({
-									long:url,
-									short:""
-								})
-							}
-						)
+					const res = await fetch(
+						"https://go-link-shortner.onrender.com/",
+						{
+							method:"POST",
+							headers:{ "Content-Type":"application/json" },
+							body:JSON.stringify({ long:url, short:"" })
+						}
+					)
 
-					const data =
-						await res.json()
+					const data = await res.json()
 
-					const wrapper =
-						document.createElement("div")
-
+					const wrapper = document.createElement("div")
 					wrapper.className="resultRow"
 
-					const returnedLink =
-						document.createElement("input")
-
+					const returnedLink = document.createElement("input")
 					returnedLink.className="linkToCopy"
+					returnedLink.readOnly = true
+					returnedLink.value =
+						"https://go-link-shortner.onrender.com/" + data
 
-					returnedLink.readOnly=true
-
-					returnedLink.value=
-"https://go-link-shortner.onrender.com/"+data
-
-					const copyBtn =
-						document.createElement("button")
-
+					const copyBtn = document.createElement("button")
 					copyBtn.className="copyBtn"
-
+					copyBtn.innerHTML = iconCopy()   // FIX: add icon
 
 					wrapper.appendChild(returnedLink)
 					wrapper.appendChild(copyBtn)
 
-					shortLinkContainer.innerHTML=
-						iconCopy()
+					shortLinkContainer.innerHTML = ""   // FIX: clear properly
 					shortLinkContainer.appendChild(wrapper)
 
-					copyBtn.onclick=async()=>{
-
-						await navigator.clipboard.writeText(
-							returnedLink.value
-						)
-						copyBtn.innerHTML =
-							iconCheck()
-
+					copyBtn.onclick = async ()=>{
+						await navigator.clipboard.writeText(returnedLink.value)
+						copyBtn.innerHTML = iconCheck()
 						msg.textContent = "copied"
 					}
 
-				}
-				catch{
-
+				}catch{
 					msg.textContent="network error"
-
-				}
-				finally{
-
+				}finally{
 					setLoading(false)
-
 				}
-
 			}
 
-			submitBtn.onclick=submitLink
+			submitBtn.onclick = submitLink
 
-			linkInput.addEventListener(
-"input",
-				()=>{
+			linkInput.addEventListener("input", ()=>{
+				submitBtn.disabled = linkInput.value.trim().length===0
+				toggleClear()
+			})
 
-					submitBtn.disabled=
-						linkInput.value.trim().length===0
-
-					toggleClear()
-
+			linkInput.addEventListener("keydown", e=>{
+				if(e.key==="Enter"){
+					submitLink()
 				}
-			)
-
-			linkInput.addEventListener(
-"keydown",
-				e=>{
-
-					if(e.key==="Enter"){
-
-						submitLink()
-
-					}
-
-				}
-			)
+			})
 
 			submitBtn.disabled=true
 
 			function iconCopy(){
-
 				return `
 <svg xmlns="http://www.w3.org/2000/svg"
 viewBox="0 0 24 24"
@@ -550,10 +468,10 @@ stroke-width="2">
 <path d="M5 15H4a2 2 0 0 1-2-2V4
 a2 2 0 0 1 2-2h9
 a2 2 0 0 1 2 2v1"/>
-</svg>
-`
-			function iconCheck(){
+</svg>`
+			}
 
+			function iconCheck(){
 				return `
 <svg xmlns="http://www.w3.org/2000/svg"
 viewBox="0 0 24 24"
@@ -561,63 +479,35 @@ fill="none"
 stroke="currentColor"
 stroke-width="3">
 <polyline points="20 6 9 17 4 12"/>
-</svg>
-`
+</svg>`
+			}
 
 			function applyTheme(theme){
-
 				if(theme==="light"){
-
 					document.documentElement.classList.add("light")
-					toggleBtn.textContent="☀"
-
-				}
-				else{
-
+					toggleBtn.textContent="🌙"
+				}else{
 					document.documentElement.classList.remove("light")
 					toggleBtn.textContent="☀"
-
 				}
-
-				localStorage.setItem(
-"theme",
-					theme
-				)
-
+				localStorage.setItem("theme", theme)
 			}
 
 			toggleBtn.onclick=()=>{
-
-				const isLight=
+				const isLight =
 					document.documentElement.classList.contains("light")
-
-				applyTheme(
-					isLight?"dark":"light"
-				)
-
+				applyTheme(isLight ? "dark" : "light")
 			}
 
-			const saved =
-				localStorage.getItem("theme")
+			const saved = localStorage.getItem("theme")
 
 			if(saved){
-
 				applyTheme(saved)
-
-			}
-			else{
-
+			}else{
 				const prefersLight =
-					window.matchMedia(
-"(prefers-color-scheme: light)"
-					).matches
-
-				applyTheme(
-					prefersLight?"light":"dark"
-				)
-
+					window.matchMedia("(prefers-color-scheme: light)").matches
+				applyTheme(prefersLight ? "light" : "dark")
 			}
-
 		</script>
 
 	</body>
